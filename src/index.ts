@@ -107,6 +107,6 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+export const http = app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
