@@ -1,24 +1,37 @@
+import { Server } from "http";
+
+import { RestApiDriver } from "./RestApiDriver";
 import { WebServer } from "./WebServer";
 
 describe(WebServer.name, () => {
   let webServer = new WebServer();
 
-  beforeEach(async () => {
-    await webServer.stop();
+  describe("starting and stopping", () => {
+    beforeEach(() => webServer.stop());
+    afterEach(() => webServer.stop());
+
+    it("can start", async () => {
+      await webServer.start();
+      expect(webServer.isRunning()).toBeTruthy();
+    });
+
+    test("once started, it can be stopped", async () => {
+      await webServer.start();
+      await webServer.stop();
+      expect(webServer.isRunning()).toBeFalsy();
+    });
   });
 
-  afterEach(async () => {
-    await webServer.stop();
-  });
+  describe("health", () => {
+    beforeEach(() => webServer.start());
+    afterEach(() => webServer.stop());
 
-  it("can start", async () => {
-    await webServer.start();
-    expect(webServer.isRunning()).toBeTruthy();
-  });
+    test("is healthy", async () => {
+      let driver = new RestApiDriver(webServer.getServer() as Server);
+      let response = await driver.get("/health");
 
-  test("once started, it can be stopped", async () => {
-    await webServer.start();
-    await webServer.stop();
-    expect(webServer.isRunning()).toBeFalsy();
+      expect(response.statusCode).toBe(200);
+      expect(response.ok).toBeTruthy();
+    });
   });
 });

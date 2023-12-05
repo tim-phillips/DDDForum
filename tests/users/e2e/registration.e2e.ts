@@ -20,7 +20,7 @@ defineFeature(feature, (test) => {
 
     beforeAll(async () => {
       await webServer.start();
-      driver = new RestApiDriver(webServer.getHttp() as Server);
+      driver = new RestApiDriver(webServer.getServer() as Server);
       // clear db
     });
 
