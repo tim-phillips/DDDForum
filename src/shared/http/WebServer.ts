@@ -34,6 +34,8 @@ export class WebServer {
     this.express.post("/users/new", createUserController);
     this.express.post("/users/edit/:userId", editUserController);
     this.express.get("/users", getUserController);
+
+    this.express.get("/health", (_, res) => res.status(200).send());
   }
 
   public isRunning() {
@@ -61,7 +63,7 @@ export class WebServer {
     });
   }
 
-  public getHttp() {
+  public getServer() {
     if (!this.isRunning()) {
       throw new Error("Server has not been started.");
     }
