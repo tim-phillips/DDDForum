@@ -2,27 +2,30 @@ import path from "path";
 
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { Response } from "supertest";
+import { Server } from "http";
 
 import { RestApiDriver } from "../../../src/shared/http/RestApiDriver";
-import { http } from "../../../src/index";
-import { UserBuilder } from "./builders/UserBuilder";
+import { WebServer } from "../../../src/shared/http/WebServer";
 import { CreateUserInput } from "../../../src/modules/users/DTOs/userDTOs";
+import { UserBuilder } from "./builders/UserBuilder";
 
 const feature = loadFeature(path.join(__dirname, "./registration.feature"));
 
 defineFeature(feature, (test) => {
   test("Successful registration", ({ given, when, then, and }) => {
-    let driver = new RestApiDriver(http);
+    let webServer: WebServer = new WebServer();
+    let driver: RestApiDriver;
     let response: Response;
     let createUserInput: CreateUserInput;
 
-    beforeAll(() => {
-      // TODO start server
-      // TODO clear db
+    beforeAll(async () => {
+      await webServer.start();
+      driver = new RestApiDriver(webServer.getHttp() as Server);
+      // clear db
     });
 
-    afterAll(() => {
-      // TODO stop server
+    afterAll(async () => {
+      await webServer.stop();
     });
 
     given("I am a new user", () => {
@@ -34,7 +37,6 @@ defineFeature(feature, (test) => {
     });
 
     then("I should be granted access to my account", () => {
-      console.log(response);
       expect(response.body.success).toBeTruthy();
       expect(response.body.error).toBeFalsy();
       expect(response.body.data).toBeDefined();
