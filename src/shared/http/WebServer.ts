@@ -2,11 +2,7 @@ import express, { Express } from "express";
 import { Server } from "http";
 import { kill } from "cross-port-killer";
 
-import {
-  createUserController,
-  editUserController,
-  getUserController,
-} from "../../modules/users/controllers/userController";
+import { UserController } from "../../modules/users/controllers/UserController";
 
 const PORT = 3030;
 
@@ -15,7 +11,7 @@ export class WebServer {
   private http: Server | undefined;
   private state: "Started" | "Stopped";
 
-  constructor() {
+  constructor(private userController: UserController) {
     this.express = this.createExpress();
     this.configureExpress();
     this.setupRoutes();
@@ -31,9 +27,9 @@ export class WebServer {
   }
 
   private setupRoutes() {
-    this.express.post("/users/new", createUserController);
-    this.express.post("/users/edit/:userId", editUserController);
-    this.express.get("/users", getUserController);
+    this.express.post("/users/new", this.userController.createUser);
+    this.express.post("/users/edit/:userId", this.userController.editUser);
+    this.express.get("/users", this.userController.getUser);
 
     this.express.get("/health", (_, res) => res.status(200).send());
   }
