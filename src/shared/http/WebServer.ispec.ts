@@ -1,10 +1,11 @@
 import { Server } from "http";
 
+import { CompositionRoot } from "../composition/CompositionRoot";
 import { RestApiDriver } from "./RestApiDriver";
-import { WebServer } from "./WebServer";
 
-describe(WebServer.name, () => {
-  let webServer = new WebServer();
+describe("WebServer", () => {
+  const root = new CompositionRoot();
+  const webServer = root.getWebServer();
 
   describe("starting and stopping", () => {
     beforeEach(() => webServer.stop());

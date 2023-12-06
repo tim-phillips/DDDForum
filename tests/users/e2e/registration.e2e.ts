@@ -4,8 +4,8 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 import { Response } from "supertest";
 import { Server } from "http";
 
+import { CompositionRoot } from "../../../src/shared/composition/CompositionRoot";
 import { RestApiDriver } from "../../../src/shared/http/RestApiDriver";
-import { WebServer } from "../../../src/shared/http/WebServer";
 import { CreateUserInput } from "../../../src/modules/users/DTOs/userDTOs";
 import { UserBuilder } from "./builders/UserBuilder";
 
@@ -13,7 +13,9 @@ const feature = loadFeature(path.join(__dirname, "./registration.feature"));
 
 defineFeature(feature, (test) => {
   test("Successful registration", ({ given, when, then, and }) => {
-    let webServer: WebServer = new WebServer();
+    const root = new CompositionRoot();
+    const webServer = root.getWebServer();
+
     let driver: RestApiDriver;
     let response: Response;
     let createUserInput: CreateUserInput;
@@ -37,6 +39,7 @@ defineFeature(feature, (test) => {
     });
 
     then("I should be granted access to my account", () => {
+      // console.log(response);
       expect(response.body.success).toBeTruthy();
       expect(response.body.error).toBeFalsy();
       expect(response.body.data).toBeDefined();
