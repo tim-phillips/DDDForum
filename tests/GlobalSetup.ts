@@ -5,6 +5,7 @@ import { ExecSyncOptions, execSync } from "child_process";
 export class GlobalSetup {
   public runGlobalSetup() {
     this.loadEnv();
+    this.startDatabase();
     this.generatePrismaClient();
     this.pushPrismaSchema();
   }
@@ -15,12 +16,20 @@ export class GlobalSetup {
     });
   }
 
+  private startDatabase() {
+    this.execSync("docker compose up --build -d");
+  }
+
   private generatePrismaClient() {
-    execSync("prisma generate", this.getExecOptions());
+    this.execSync("prisma generate");
   }
 
   private pushPrismaSchema() {
-    execSync("prisma db push", this.getExecOptions());
+    this.execSync("prisma db push --force-reset");
+  }
+
+  private execSync(cmd: string) {
+    execSync(cmd, this.getExecOptions());
   }
 
   private getExecOptions() {
