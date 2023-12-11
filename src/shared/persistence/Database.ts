@@ -10,7 +10,7 @@ export class Database {
   public async connect() {
     try {
       await this.prisma.$connect();
-      console.log("Connection to the database successful.");
+      console.log("Connection to the database is successful.");
       return true;
     } catch (err) {
       return false;
