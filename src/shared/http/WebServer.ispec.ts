@@ -28,8 +28,8 @@ describe("WebServer", () => {
     afterEach(() => webServer.stop());
 
     test("is healthy", async () => {
-      let driver = new RestApiDriver(webServer.getServer() as Server);
-      let response = await driver.get("/health");
+      const driver = new RestApiDriver(webServer.getServer() as Server);
+      const response = await driver.get("/health");
 
       expect(response.statusCode).toBe(200);
       expect(response.ok).toBeTruthy();
