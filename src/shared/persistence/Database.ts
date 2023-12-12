@@ -27,7 +27,7 @@ export class Database {
     }
   }
 
-  public async getConnection() {
+  public async getClient() {
     return this.prisma;
   }
 }

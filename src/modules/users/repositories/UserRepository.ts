@@ -8,17 +8,17 @@ export class UserRepository {
   constructor(private database: Database) {}
 
   async createUser(user: UserCreateInput) {
-    const dbConnection = await this.database.getConnection();
-    return dbConnection.user.create({ data: user });
+    const dbClient = await this.database.getClient();
+    return dbClient.user.create({ data: user });
   }
 
   async editUser(userId: number, user: Prisma.UserUpdateInput) {
-    const dbConnection = await this.database.getConnection();
-    return dbConnection.user.update({ where: { id: userId }, data: user });
+    const dbClient = await this.database.getClient();
+    return dbClient.user.update({ where: { id: userId }, data: user });
   }
 
   async getUser(email: string) {
-    const dbConnection = await this.database.getConnection();
-    return dbConnection.user.findUniqueOrThrow({ where: { email } });
+    const dbClient = await this.database.getClient();
+    return dbClient.user.findUniqueOrThrow({ where: { email } });
   }
 }
