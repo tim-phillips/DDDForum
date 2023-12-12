@@ -9,7 +9,7 @@ export class RestApiDriver {
     return request(this.http).get(url);
   }
 
-  async post(url: string, data: any) {
+  async post(url: string, data: string | object | undefined) {
     return request(this.http)
       .post(url)
       .set("Accept", "application/json")

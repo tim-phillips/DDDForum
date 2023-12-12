@@ -19,8 +19,8 @@ export class Database {
 
   public async testConnection() {
     try {
-      const result: any = await this.prisma.$queryRaw`SELECT 1 + 1 AS sum`;
-      if (result[0].sum === 2) return true;
+      const result = await this.prisma.$queryRaw`SELECT 1 + 1 AS sum`;
+      if (Array.isArray(result) && result[0].sum === 2) return true;
       return false;
     } catch (err) {
       return false;

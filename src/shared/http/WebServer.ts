@@ -39,12 +39,13 @@ export class WebServer {
   }
 
   public async start(): Promise<void> {
-    return new Promise(async (resolve) => {
-      await kill(PORT);
-      this.http = this.express.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-        this.state = "Started";
-        resolve();
+    return new Promise((resolve) => {
+      kill(PORT).then(() => {
+        this.http = this.express.listen(PORT, () => {
+          console.log(`Server is running on port ${PORT}`);
+          this.state = "Started";
+          resolve();
+        });
       });
     });
   }
