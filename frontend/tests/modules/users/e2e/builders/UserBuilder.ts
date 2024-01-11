@@ -2,7 +2,7 @@
 
 import { faker } from "@faker-js/faker";
 
-import { CreateUserInput } from "../../../../src/modules/users/DTOs/userDTOs";
+import { CreateUserInput } from "../../../../../src/modules/users/DTOs/userDTOs";
 
 export class UserBuilder {
   private userInput: CreateUserInput;
