@@ -17,7 +17,7 @@ defineFeature(feature, (test) => {
     let createUserInput: CreateUserInput;
 
     beforeAll(async () => {
-      pageDriver = await PuppeteerPageDriver.create({ headless: false });
+      pageDriver = await PuppeteerPageDriver.create({ headless: "new" });
       frontPage = new FrontPage(pageDriver);
       registrationPage = new RegistrationPage(pageDriver);
     });
@@ -40,6 +40,7 @@ defineFeature(feature, (test) => {
     then("I should be granted access to my account", async () => {
       expect(await registrationPage.isSuccessToastVisible()).toBeTruthy();
       expect(await frontPage.isOnPage()).toBeTruthy();
+      expect(await frontPage.getMenuText()).toContain(createUserInput.username);
     });
 
     and("I should receive an email with login instructions", () => {
