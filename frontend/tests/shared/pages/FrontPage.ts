@@ -10,7 +10,7 @@ export class FrontPage {
     this.pageComponents = new PageComponents({
       driver: this.pageDriver,
       elements: {
-        menu: { selector: "#menu", type: "div" },
+        menu: { selector: ".menu", type: "div" },
       },
       timeout: 3000,
     });
@@ -24,13 +24,13 @@ export class FrontPage {
   async clickJoin() {
     await this.pageComponents.load();
     const menu = this.pageComponents.get("menu");
-    await menu.click();
+    await menu?.click();
   }
 
   async getMenuText() {
     await this.pageComponents.load();
     const menu = this.pageComponents.get("menu");
-    return menu.evaluate((e) => e.textContent);
+    return menu?.evaluate((e) => e.textContent);
   }
 
   async isOnPage() {
