@@ -3,7 +3,7 @@ import { PuppeteerPageDriver } from "../../drivers/PuppeteerPageDriver";
 
 const DEFAULT_TIMEOUT = 3000;
 
-type ElementType = "div" | "button";
+type ElementType = "div" | "button" | "input";
 
 interface Config {
   elements: {
@@ -57,7 +57,7 @@ export class PageComponents {
     this.loadedPageComponents = newLoadedPageComponents;
   }
 
-  get(name: string): ElementHandle<Element> {
+  get(name: string): ElementHandle<Element> | undefined {
     const isLoaded = Object.keys(this.loadedPageComponents).length;
     if (!isLoaded) {
       throw new Error(
