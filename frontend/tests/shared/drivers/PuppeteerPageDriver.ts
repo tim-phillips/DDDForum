@@ -16,7 +16,7 @@ export class PuppeteerPageDriver {
     await this.browser.close();
   }
 
-  async getPage() {
+  getPage() {
     return this.page;
   }
 }

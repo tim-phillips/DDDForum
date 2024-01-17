@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from "react";
 
+import { NotificationService } from "../../../shared/notifications/NotificationService";
+
 interface RegistrationFormState {
   email: string;
   firstName: string;
@@ -7,7 +9,13 @@ interface RegistrationFormState {
   username: string;
 }
 
-export function RegistrationFormView() {
+interface RegistrationFormViewProps {
+  notificationService: NotificationService;
+}
+
+export function RegistrationFormView({
+  notificationService,
+}: RegistrationFormViewProps) {
   const [formState, setFormState] = useState<RegistrationFormState>({
     email: "",
     firstName: "",
@@ -26,6 +34,7 @@ export function RegistrationFormView() {
 
   function handleSubmit() {
     console.info("Submit:", formState);
+    notificationService.showSuccess("Successful action!");
   }
 
   return (

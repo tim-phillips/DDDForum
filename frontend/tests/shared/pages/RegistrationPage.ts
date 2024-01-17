@@ -30,7 +30,11 @@ export class RegistrationPage {
     await this.pageComponents.get("submit")?.click();
   }
 
-  async isSuccessToastVisible() {
-    return true;
+  async isSuccessToastVisible(): Promise<boolean> {
+    const page = this.pageDriver.getPage();
+    const element = await page.waitForSelector(".toast.success", {
+      timeout: 2500,
+    });
+    return Boolean(element);
   }
 }
