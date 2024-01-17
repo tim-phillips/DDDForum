@@ -17,7 +17,7 @@ export class FrontPage {
   }
 
   async open() {
-    const page = await this.pageDriver.getPage();
+    const page = this.pageDriver.getPage();
     await page.goto("http://localhost:5173/");
   }
 
@@ -34,6 +34,6 @@ export class FrontPage {
   }
 
   async isOnPage() {
-    return true;
+    return false;
   }
 }

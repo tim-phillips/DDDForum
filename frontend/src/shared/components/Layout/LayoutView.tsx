@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import { MenuView } from "../Menu/MenuView";
 
 interface LayoutViewProps {
