@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { NotificationService } from "../../../shared/notifications/NotificationService";
+import { UserService } from "../../../shared/users/UserService";
 
 interface RegistrationFormState {
   email: string;
@@ -11,11 +13,15 @@ interface RegistrationFormState {
 
 interface RegistrationFormViewProps {
   notificationService: NotificationService;
+  userService: UserService;
 }
 
 export function RegistrationFormView({
   notificationService,
+  userService,
 }: RegistrationFormViewProps) {
+  const navigate = useNavigate();
+
   const [formState, setFormState] = useState<RegistrationFormState>({
     email: "",
     firstName: "",
@@ -33,6 +39,26 @@ export function RegistrationFormView({
   }
 
   function handleSubmit() {
+    const errorOrNothing = validateForm(formState);
+    if (errorOrNothing instanceof Error) {
+      const error = errorOrNothing;
+      notificationService.showError(error.message);
+      return;
+    }
+
+    userService.createUser(
+      formState,
+      () => {
+        notificationService.showSuccess("Account created");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      },
+      (error: Error) => {
+        notificationService.showError("Account not created");
+      }
+    );
+
     console.info("Submit:", formState);
     notificationService.showSuccess("Successful action!");
   }
@@ -80,4 +106,15 @@ export function RegistrationFormView({
       </button>
     </>
   );
+}
+
+function validateForm(formData: RegistrationFormState): Error | void {
+  if (!formData.email.includes("@")) return new Error("Invalid email");
+  if (formData.firstName.length < 1 || formData.firstName.length > 20)
+    return new Error("Invalid first name");
+  if (formData.lastName.length < 1 || formData.lastName.length > 20)
+    return new Error("Invalid last name");
+  if (formData.username.length < 1 || formData.username.length > 20)
+    return new Error("Invalid username");
+  return;
 }
