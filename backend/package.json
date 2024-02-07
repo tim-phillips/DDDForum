@@ -22,8 +22,7 @@
     "types:check": "tsc --noEmit",
     "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "prettier:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "pre-commit": "npm run lint && npm run types:check && npm run test",
-    "prepare": "husky install"
+    "pre-commit": "npm run lint && npm run types:check && npm run test"
   },
   "keywords": [],
   "author": "",
