@@ -1,8 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { NotificationService } from "../../../shared/notifications/NotificationService";
 import { UserService } from "../../../shared/users/UserService";
+import { UserDTO } from "../../../modules/users/DTOs/userDTOs";
+import { GlobalStateContext } from "../../../shared/globalState/GlobalStateProvider";
 
 interface RegistrationFormState {
   email: string;
@@ -20,6 +22,7 @@ export function RegistrationFormView({
   notificationService,
   userService,
 }: RegistrationFormViewProps) {
+  const { setUser } = useContext(GlobalStateContext);
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState<RegistrationFormState>({
@@ -48,19 +51,18 @@ export function RegistrationFormView({
 
     userService.createUser(
       formState,
-      () => {
+      (user: UserDTO) => {
         notificationService.showSuccess("Account created");
+        setUser(user);
         setTimeout(() => {
           navigate("/");
         }, 3000);
       },
       (error: Error) => {
         notificationService.showError("Account not created");
+        console.error(error);
       }
     );
-
-    console.info("Submit:", formState);
-    notificationService.showSuccess("Successful action!");
   }
 
   return (
