@@ -19,4 +19,8 @@ export class PuppeteerPageDriver {
   getPage() {
     return this.page;
   }
+
+  getBrowser() {
+    return this.browser;
+  }
 }

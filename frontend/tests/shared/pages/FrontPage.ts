@@ -16,9 +16,11 @@ export class FrontPage {
     });
   }
 
+  baseUrl = "http://localhost:5173/";
+
   async open() {
     const page = this.pageDriver.getPage();
-    await page.goto("http://localhost:5173/");
+    await page.goto(this.baseUrl);
   }
 
   async clickJoin() {
@@ -34,6 +36,9 @@ export class FrontPage {
   }
 
   async isOnPage() {
-    return false;
+    const target = this.pageDriver
+      .getBrowser()
+      .waitForTarget((target) => target.url().includes(this.baseUrl));
+    return Boolean(target);
   }
 }

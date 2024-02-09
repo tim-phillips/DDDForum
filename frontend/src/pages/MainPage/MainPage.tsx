@@ -1,9 +1,5 @@
-import { Link } from "react-router-dom";
+import { LayoutView } from "../../shared/components/Layout/LayoutView";
 
 export function MainPage() {
-  return (
-    <div className="menu">
-      <Link to="/register">Join</Link>
-    </div>
-  );
+  return <LayoutView title="Main Page"></LayoutView>;
 }
