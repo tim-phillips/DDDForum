@@ -9,7 +9,7 @@
     "generate": "prisma generate",
     "db:push": "prisma db push",
     "db:start": "docker compose up --build -d",
-    "start:dev": "dotenv -e .env.development npm run db:start && npm run generate && dotenv -e .env.development npm run db:push && dotenv -e .env.development nodemon",
+    "dev": "dotenv -e .env.development npm run db:start && npm run generate && dotenv -e .env.development npm run db:push && dotenv -e .env.development nodemon",
     "start": "npm run build && node build/index.js",
     "test": "npm run test:infra && npm run test:e2e",
     "test:unit": "jest -c jest.config.unit.js",
