@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import cors from "cors";
 import { Server } from "http";
 import { kill } from "cross-port-killer";
 
@@ -24,6 +25,7 @@ export class WebServer {
 
   private configureExpress() {
     this.express.use(express.json());
+    this.express.use(cors());
   }
 
   private setupRoutes() {
